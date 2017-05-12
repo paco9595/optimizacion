@@ -11,24 +11,6 @@ datos=[]
 cap=0
 prom_pesos=[]
 disponibles=[]
-def prom(lista):
-    promedio=0.0
-    aux=0.0
-    for x in range(len(lista)):
-        aux+=lista[x]
-    #print aux
-    promedio=aux/len(datos)
-    return promedio
-def suma():
-    global sumas
-    sumas=[]
-    aux=0
-    for x in range(len(datos)):
-        for y in range(len(datos[x])):
-            aux+=datos[x][y]
-        sumas.append(aux)
-        aux=0
-    #print sumas
 def leerDatos():
     line=0;
     aux=[]
@@ -68,38 +50,70 @@ def rellenar():
             else:
                 break
     #print len(datos[500])
-def validar(objeto):
-    if objeto+100<=cap:
-        return True
-    else:
-        return False
-def mejores(lista):
-    print disponibles
+def suma():
+    global sumas
+    sumas=[]
+    aux=0
+    for x in range(len(datos)):
+        for y in range(len(datos[x])):
+            aux+=datos[x][y]
+        sumas.append(aux)
+        aux=0
+    #print sumas
+def prom(lista):
+    promedio=0.0
+    aux=0.0
+    for x in range(len(lista)):
+        aux+=lista[x]
+    #print aux
+    promedio=aux/len(datos)
+    return promedio
+def mejores(lista,disponibles):
+    #print disponibles
     i=0
     aux=[]
+    #print disponibles
     valido=True
     for x in range(10):
         while valido:
+            #print max(lista)
             i=lista.index(max(lista))
             if disponibles[i]==0:
                 lista[i]=0
                 aux.append(i)
                 valido=False
+        valido=True
+    #print aux
+    return aux
+def validar(objeto):
+    if objeto+100<=cap:
+        return True
+    else:
+        return False
+def meter(selecionados,lista):
+    aux=[]
+    alfa=0.4
+    num_max=max(lista)
+    num_min=min(lista)   
+    criterio= num_min+ (alfa*(num_max-num_min))
+    print criterio 
+    print lista
+    for x in range(len(selecionados)):
+        if lista[selecionados[x]]<=criterio:
+            print selecionados[x]
+            aux.append(lista[selecionados[x]+1])
     print aux
-        
-def pre(lista):
+def constructor(lista):
+    #print lista
     prePeso=0
     sinCambios=0
     disponibles=[0]*len(datos)
     prom_pesos=prom(lista)
     for x in range(len(datos)-1):
         prom_cap.append(prom(datos[x+1]))
-    mejores(lista)
-    #while prePeso<cap and sinCambios<10:
-     #   for x in range():
-      #      pass
-
+    selecionados=mejores(lista,disponibles)
+    meter(selecionados,lista)
 pesos=leerDatos()
 rellenar()
 suma()
-pre(pesos)
+constructor(pesos)
