@@ -40,7 +40,7 @@ def leerDatos():
                         suma+=x;
                     else:
                         line+=1
-                        
+
         	else:
                     if line>=1 and (len(suma)>0):
                         aux.append(int(suma))
@@ -87,3 +87,4 @@ pesos=leerDatos()
 rellenar()
 suma()
 pre(pesos)
+print "hola prros de git"
