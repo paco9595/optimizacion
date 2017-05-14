@@ -5,6 +5,8 @@ global prom_pesos;
 global prom_cap;
 global pre_mochila;
 global disponibles;
+global pesos_Selecionados;
+pesos_Selecionados=[]
 pre_mochila=[]
 prom_cap=[]
 datos=[]
@@ -73,36 +75,47 @@ def mejores(lista,disponibles):
     i=0
     aux=[]
     #print disponibles
-    valido=True
     for x in range(10):
-        while valido:
-            #print max(lista)
-            i=lista.index(max(lista))
-            if disponibles[i]==0:
-                lista[i]=0
-                aux.append(i)
-                valido=False
-        valido=True
-    #print aux
+        #print max(lista)
+        i=lista.index(max(lista))
+        if disponibles[i]==0:
+            aux.append(i)
+            pesos_Selecionados.append(lista[i])
+            disponibles[i]=1
+        lista[i]=0 
+    print aux
     return aux
 def validar(objeto):
     if objeto+100<=cap:
         return True
     else:
         return False
+def convertir(lista,selecionados):
+    aux=[]
+    print lista
+    print pesos_Selecionados
+    print lista[16]
+    for x in range(len(selecionados)):
+        aux.append(lista[selecionados[x]])
+    print aux 
+    return aux
 def meter(selecionados,lista):
+    #print 'hola',lista
     aux=[]
     alfa=0.4
-    num_max=max(lista)
-    num_min=min(lista)   
+    valores=convertir(lista,selecionados)
+    num_max=max(valores)
+    num_min=min(valores) 
+    #print num_max,num_min  
     criterio= num_min+ (alfa*(num_max-num_min))
     print criterio 
-    print lista
+    #print lista
     for x in range(len(selecionados)):
+        print selecionados[x], lista[selecionados[x]]
         if lista[selecionados[x]]<=criterio:
-            print selecionados[x]
+            #print selecionados[x]
             aux.append(lista[selecionados[x]+1])
-    print aux
+    #print aux
 def constructor(lista):
     #print lista
     prePeso=0
