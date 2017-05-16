@@ -81,7 +81,7 @@ def mejores(lista,disponibles):
         if disponibles[i]==0:
             aux.append(i)
             pesos_Selecionados.append(lista[i])
-            disponibles[i]=1
+            disponibles[i]=1    
         lista[i]=0 
     print aux
     return aux
