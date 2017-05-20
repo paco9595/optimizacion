@@ -62,9 +62,8 @@ def leerdatos():
     #print len(beneficio
 
 def prom(l):
-
     if (len(l)-l.count(0))!=0:
-        return suma(l) / (len(l)-l.count(0))
+        return sum(l,0.0) / (len(l)-l.count(0))
     else:
         return 0
 def suma(l):
@@ -88,23 +87,29 @@ def elegir():
     while len(id_selecionados_posibles)<=5 and i<10:
         prom_ben_total=prom(prom_ben)
         prom_peso=prom(pesos)
+        #print 'primer while'
         for x in range(len(beneficio)):
             if len(id_selecionados_posibles)<5:
-                if prom_ben[x]>prom_ben_total and mochila[x]==0:# and pesos[x]+peso_aux<cap:
+                if  mochila[x]==0 and prom_ben[x]>prom_ben_total :# pesos[x]+peso_aux<cap:
                     #cor.append(x)
+                    aux=beneficio[x].index(max(beneficio[x]))
+                    #print aux
                     while paso:
+                        print 'primer segundo'
                         aux=beneficio[x].index(max(beneficio[x]))
-                        if mochila[aux]==0 :#and pesos[aux]+peso_aux<cap:
+                        #print aux
+                        if ben_selecionados.count(beneficio[x][aux])>=1 or (mochila[aux]==0 and pesos[aux]+peso_aux<cap):
                             paso=False
                             if x==aux:
-                                id_selecionados_posibles.append([x,0]) #si es cerro es que el mismo id
+                                id_selecionados_posibles.append([x,-1]) #si es cerro es que el mismo id
                                 ben_selecionados.append(beneficio[x][aux])
                                 beneficio[x][aux]==0
                             else:
                                 id_selecionados_posibles.append([x,aux])# si es diferente es que es otro id
                                 ben_selecionados.append(beneficio[x][aux])
-                            mochila[x]==1
-                            mochila[aux]=1
+                                beneficio[x][aux]==0
+                                #mochila[x]=1
+                                #mochila[aux]=1
                             prom_ben[x]=prom
                         else:
                             beneficio[x][aux]==0
@@ -117,13 +122,24 @@ def elegir():
                 break
         i+=1
         prom_ben=[]
+    i=0
 def constructor():
     global id_selecionados_posibles
+    global pesos_selecionados
+    global ben_selecionados
     peso_aux=0 
-    #for x in range(3):
-    elegir()
-    print '1', id_selecionados_posibles
-    ran =random.choice(id_selecionados_posibles)
+    for x in range(5):
+        elegir()
+        print x, id_selecionados_posibles
+        ran =random.choice(id_selecionados_posibles)
+        mochila[1]=1
+        #print ran
+        if ran[1]!=-1:
+            mochila[ran[1]]=1
+            print x,pesos[ran[0]]
+        else:
+            print x,pesos[ran[0]], paso[ran[0]]
+
 
 
 leerdatos()
