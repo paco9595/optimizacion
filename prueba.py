@@ -22,8 +22,8 @@ def leerdatos():
     datos=[]
     cunt=0
     cant=0
-    num=sys.argv[1]
-    archivo = open("1000_25/1000_25_"+num+".txt", "r")
+    #num=sys.argv[1]
+    archivo = open("1000_25/1000_25_4.txt", "r")
     #print len(archivo.readlines())
     for linea in archivo.readlines():
         for x in linea:
@@ -62,21 +62,16 @@ def leerdatos():
         beneficio.append(aux)
         aux=[]
     #print len(beneficio
-def prom_cor(l):
-    global beneficio
-    aux=0
-    for x in range(len(l)):
-        aux+=beneficio[l[x][0]][l[x][1]]
-    return aux/len(l)
 def prom(l):
+
     if (len(l)-l.count(0))!=0:
-        return sum(l) / (len(l)-l.count(0))
+        return suma(l) / (len(l)-l.count(0))
     else:
         return 0
+def suma(l):
+    return sum(l, 0.0)
 def selecion():
     global mochila
-    global prom_ben
-    global prom_total
     prom_ben=[]
     prom_total=0
     prom_pesos=0
@@ -98,34 +93,18 @@ def selecion():
             if mochila[cor[0]]==0 and mochila[cor[1]]==0:
                 posibles.append([cor[0],cor[1]])
                 break
+
         #print 'objeto',beneficio[obj_x][obj_y]
     #print 'posibles',posibles
     return posibles
-def sacar_beneficio(l):
-    global sosluciones
-    global beneficio
-    aux=0
-    for x in range(len(l)):
-        aux+=beneficio[l[x][0]][l[x][1]]
-    return aux
-def sacar_peso(l):
-    global sosluciones
-    global pesos
-    aux=0
-    for x in range(len(l)):
-        aux+=pesos[l[x][0]]+pesos[l[x][1]]
-    return aux
 def constructor():
     global sosluciones
     global mochila
-    global cont_mochilas
     peso_mochila=0
     sosluciones=[]
     selecionados=[]
-    cont_mochilas=[]
     count=0
-    ben_mochila=0
-    while len(sosluciones)<5:
+    while len(sosluciones)<10:
         while cap>peso_mochila and count<5:
             while True and count<5:
                 candidado=random.choice(selecion())
@@ -135,78 +114,26 @@ def constructor():
                     mochila[candidado[1]]=1
                     selecionados.append(candidado)
                     peso_mochila+=pesos[candidado[0]]+pesos[candidado[1]]
-                    ben_mochila+=beneficio[candidado[0]][candidado[1]]
+                    # for x in range(len(selecionados)):
+                    #     peso_mochila+=pesos[selecionados[x][0]]+pesos[selecionados[x][1]]
+                    #print 'peso_mochila',peso_mochila,len(selecionados)
                     count=0
                     break
                 else:
                     count+=1
-        print 'len',len(selecionados),'selecionados',selecionados,'suma',peso_mochila,'ben',ben_mochila
+        print 'len',len(selecionados),'selecionados',selecionados,'suma',peso_mochila
         sosluciones.append(selecionados)
         print len(sosluciones)
-        cont_mochilas.append(mochila)
         mochila=[0]*len(beneficio)
         selecionados=[]
         peso_mochila=0
         count=0
-        ben_mochila=0
-def hacerCambios(sosluciones):
-    global beneficio
-    mayor_que_prom=[]
-    mutli_posibles=[]
-
-    for w in range(len(beneficio)):
-        for y in range(len(beneficio[w])):
-            if beneficio[w][y]>=prom_total:
-                mayor_que_prom.append([w,y])
-    while len(posibles)<5 and i<10:
-        while True:
-            cor=mayor_que_prom[randint(0,len(mayor_que_prom)-1)]
-            if mochila[cor[0]]==0 and mochila[cor[1]]==0:
-                mutli_posibles.append([cor[0],cor[1]])
-                break
-        i=+1
-    while cap>nuevo_peso and count<5:
-        while True and count<5:
-            candidado=random.choice(mutli_posibles)
-            if cap>nuevo_peso+pesos[candidado[0]]+pesos[candidado[1]]:
-                #print 'pesos',pesos[candidado[0]],pesos[candidado[1]]
-                cont_mochilas[x][candidado[0]]=1
-                cont_mochilas[x][candidado[1]]=1
-                selecionados.append(candidado)
-                nuevo_peso+=pesos[candidado[0]]+pesos[candidado[1]]
-                #ben_mochila+=beneficio[candidado[0]][candidado[1]]
-                count=0
-                break
-            else:
-                count+=1
-    return selecionados
 def multiArranque():
-    global cont_mochilas
-    global beneficio
-    global sosluciones
-    global prom_total
-    nuevo_ben=0
-    re_mochila=[0]*len(beneficio)
-    for x in range(len(sosluciones)):
-        ben=sacar_beneficio(sosluciones[x])
-        vuelta=10
-        inicio=0+(x*5)
-        fin=5+(x*5)
-        i=0
-        while vuelta<10:
-            retirados=sosluciones[x][inicio:fin]
-            for y in range(len(retirados)):
-                 sosluciones.pop(retirados[y])
-            nuevo_peso=sacar_peso(sosluciones)
-            opcion=hacerCambios()
-            if ben>sacar_beneficio(opcion):
-                i+=1
-        print fin
+
 leerdatos()
 #for x in range(len(beneficio)):
-#  print 'ben',x,beneficio[x],sum(beneficio[x],0.0)
+#    print 'ben',x,beneficio[x],sum(beneficio[x],0.0)
 #   print 'pesos',pesos
-
 mochila=[0]*len(beneficio)
 constructor()
 multiArranque()
